@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from datetime import datetime, timedelta
+import re
 import subprocess
 import time
 
@@ -30,10 +31,13 @@ def main():
         line=difftest[i]
         # Process until we get to a blank line or Unique to 'production'
         if "Unique to" not in line and line != '':
+            # The output is generally fixed-width output, but if the description is too long, the date and branch get pushed out, so we can't rely strictly on fixed width. So we're going to regex it
+            #match=re.search(r'.*?\[\'(?P<branch>.*?)\'\]', line)
+            match=re.search(r'(?P<product>.*?)\s.*?\s(?P<date>\d\d\d\d-\d\d-\d\d)\s\[.*?', line)
             # Define the date based on YYYY-MM-DD string
-            line_date=datetime(*time.strptime(line[78:88], "%Y-%m-%d")[0:6])
-            # Define the product ID, and strip out extra white space on the right
-            product_id=line[0:16].rstrip()
+            line_date=datetime(*time.strptime(match.group('date'), "%Y-%m-%d")[0:6])
+            # Define the product ID
+            product_id=match.group('product')
             # If the date of the product is less than the threshold date...
             if line_date < threshold_date:
                 # Add it to the production branch
