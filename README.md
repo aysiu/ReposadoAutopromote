@@ -38,5 +38,5 @@ sudo chmod +x /usr/local/reposado/repopromote
 /usr/local/reposado/repopromote
 ```
 
-## How can I schedule Reposado?
+## How can I schedule ReposadoAutopromote?
 It really will depend on what operating system you use Reposado on. Linux has [cron jobs](https://help.ubuntu.com/community/CronHowto), and macOS has [launchd](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html).
